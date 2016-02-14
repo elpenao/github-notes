@@ -17,7 +17,7 @@ var Profile = React.createClass({
     }
   },
   componentDidMount: function(){
-    this.ref = new Firebase('https://github-note-taker.firebaseio.com/');
+    this.ref = new Firebase('https://sweltering-heat-7072.firebaseio.com/');
     this.init(this.props.params.username)
   },
   componentWillReceiveProps: function(nextProps){
@@ -40,6 +40,7 @@ var Profile = React.createClass({
       }.bind(this))
   },
   handleAddNote: function(newNote){
+    console.log('handled the new note', newNote)
     this.ref.child(this.props.params.username).child(this.state.notes.length).set(newNote)
   },
   render: function(){

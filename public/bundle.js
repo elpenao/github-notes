@@ -24825,7 +24825,7 @@
 
 	var React = __webpack_require__(24);
 	var Router = __webpack_require__(1);
-	var Repos = __webpack_require__(246);
+	var Repos = __webpack_require__(221);
 	var UserProfile = __webpack_require__(222);
 	var Notes = __webpack_require__(223);
 	var ReactFireMixin = __webpack_require__(226);
@@ -24844,7 +24844,7 @@
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    this.ref = new Firebase('https://github-note-taker.firebaseio.com/');
+	    this.ref = new Firebase('https://sweltering-heat-7072.firebaseio.com/');
 	    this.init(this.props.params.username);
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -24866,6 +24866,7 @@
 	    }.bind(this));
 	  },
 	  handleAddNote: function handleAddNote(newNote) {
+	    console.log('handled the new note', newNote);
 	    this.ref.child(this.props.params.username).child(this.state.notes.length).set(newNote);
 	  },
 	  render: function render() {
@@ -24897,7 +24898,61 @@
 	module.exports = Profile;
 
 /***/ },
-/* 221 */,
+/* 221 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(24);
+
+	var Repos = React.createClass({
+	  displayName: "Repos",
+
+	  propTypes: {
+	    username: React.PropTypes.string.isRequired,
+	    repos: React.PropTypes.array.isRequired
+	  },
+	  render: function render() {
+	    var repos = this.props.repos.map(function (repo, index) {
+	      return React.createElement(
+	        "li",
+	        { className: "list-group-item", key: index },
+	        repo.html_url && React.createElement(
+	          "h4",
+	          null,
+	          React.createElement(
+	            "a",
+	            { href: repo.html_url },
+	            repo.name
+	          )
+	        ),
+	        repo.description && React.createElement(
+	          "p",
+	          null,
+	          repo.description
+	        )
+	      );
+	    });
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "h3",
+	        null,
+	        " User Repos "
+	      ),
+	      React.createElement(
+	        "ul",
+	        { className: "list-group" },
+	        repos
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Repos;
+
+/***/ },
 /* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -26870,61 +26925,6 @@
 	  };
 	};
 
-
-/***/ },
-/* 246 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(24);
-
-	var Repos = React.createClass({
-	  displayName: "Repos",
-
-	  propTypes: {
-	    username: React.PropTypes.string.isRequired,
-	    repos: React.PropTypes.array.isRequired
-	  },
-	  render: function render() {
-	    var repos = this.props.repos.map(function (repo, index) {
-	      return React.createElement(
-	        "li",
-	        { className: "list-group-item", key: index },
-	        repo.html_url && React.createElement(
-	          "h4",
-	          null,
-	          React.createElement(
-	            "a",
-	            { href: repo.html_url },
-	            repo.name
-	          )
-	        ),
-	        repo.description && React.createElement(
-	          "p",
-	          null,
-	          repo.description
-	        )
-	      );
-	    });
-	    return React.createElement(
-	      "div",
-	      null,
-	      React.createElement(
-	        "h3",
-	        null,
-	        " User Repos "
-	      ),
-	      React.createElement(
-	        "ul",
-	        { className: "list-group" },
-	        repos
-	      )
-	    );
-	  }
-	});
-
-	module.exports = Repos;
 
 /***/ }
 /******/ ]);
