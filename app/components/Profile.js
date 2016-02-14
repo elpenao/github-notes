@@ -11,7 +11,7 @@ var Profile = React.createClass({
   mixins: [ReactFireMixin],
   getInitialState: function(){
     return {
-      notes: [1,2,3],
+      notes: [],
       bio: {},
       repos: []
     }
