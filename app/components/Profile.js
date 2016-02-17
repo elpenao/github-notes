@@ -28,33 +28,6 @@ var Profile = React.createClass({
     }
     // Register the callback to be fired every time auth state changes
     this.ref.onAuth(authDataCallback);
-    // Create a callback to handle the result of the authentication
-    function authHandler(error, authData) {
-      if (error) {
-        console.log("Login Failed!", error);
-      } else {
-        console.log("Authenticated successfully with payload:", authData);
-      }
-    }
-    // Authenticate users with a custom authentication token
-    // this.ref.authWithCustomToken("<token>", authHandler);
-    // Alternatively, authenticate users anonymously
-    // this.ref.authAnonymously(authHandler);
-    // // Or with an email/password combination
-    // this.ref.authWithPassword({
-    //   email    : 'bobtony@firebase.com',
-    //   password : 'correcthorsebatterystaple'
-    // }, authHandler);
-    // // Or via popular OAuth providers ("facebook", "github", "google", or "twitter")
-    // this.ref.authWithOAuthPopup("<provider>", authHandler);
-    // this.ref.authWithOAuthRedirect("<provider>", authHandler);
-    this.ref.authWithOAuthRedirect("google", function(error) {
-      if (error) {
-        console.log("Login Failed!", error);
-      } else {
-        // We'll never get here, as the page will redirect on success.
-      }
-    });
     this.init(this.props.params.username)
   },
   componentWillReceiveProps: function(nextProps){

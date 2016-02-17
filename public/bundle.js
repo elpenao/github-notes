@@ -24696,15 +24696,17 @@
 	var Main = __webpack_require__(217);
 	var Home = __webpack_require__(219);
 	var Profile = __webpack_require__(220);
+	var Login = __webpack_require__(246);
 	var Router = __webpack_require__(1);
 	var Route = Router.Route;
 	var IndexRoute = Router.IndexRoute;
 
 	module.exports = React.createElement(
 	  Route,
-	  { path: '/', component: Main },
+	  { path: '/', component: Login },
+	  React.createElement(Route, { path: 'main', component: Main }),
 	  React.createElement(Route, { path: 'profile/:username', component: Profile }),
-	  React.createElement(IndexRoute, { component: Home })
+	  React.createElement(IndexRoute, { component: Login })
 	);
 
 /***/ },
@@ -24731,24 +24733,6 @@
 	    }
 	    // Register the callback to be fired every time auth state changes
 	    this.ref.onAuth(authDataCallback);
-	    // Create a callback to handle the result of the authentication
-	    function authHandler(error, authData) {
-	      if (error) {
-	        console.log("Login Failed!", error);
-	      } else {
-	        console.log("Authenticated successfully with payload:", authData);
-	      }
-	    }
-	    // // Or via popular OAuth providers ("facebook", "github", "google", or "twitter")
-	    // this.ref.authWithOAuthPopup("<provider>", authHandler);
-	    // this.ref.authWithOAuthRedirect("<provider>", authHandler);
-	    this.ref.authWithOAuthRedirect("google", function (error) {
-	      if (error) {
-	        console.log("Login Failed!", error);
-	      } else {
-	        // We'll never get here, as the page will redirect on success.
-	      }
-	    });
 	  },
 	  render: function render() {
 	    return React.createElement(
@@ -24886,33 +24870,6 @@
 	    }
 	    // Register the callback to be fired every time auth state changes
 	    this.ref.onAuth(authDataCallback);
-	    // Create a callback to handle the result of the authentication
-	    function authHandler(error, authData) {
-	      if (error) {
-	        console.log("Login Failed!", error);
-	      } else {
-	        console.log("Authenticated successfully with payload:", authData);
-	      }
-	    }
-	    // Authenticate users with a custom authentication token
-	    // this.ref.authWithCustomToken("<token>", authHandler);
-	    // Alternatively, authenticate users anonymously
-	    // this.ref.authAnonymously(authHandler);
-	    // // Or with an email/password combination
-	    // this.ref.authWithPassword({
-	    //   email    : 'bobtony@firebase.com',
-	    //   password : 'correcthorsebatterystaple'
-	    // }, authHandler);
-	    // // Or via popular OAuth providers ("facebook", "github", "google", or "twitter")
-	    // this.ref.authWithOAuthPopup("<provider>", authHandler);
-	    // this.ref.authWithOAuthRedirect("<provider>", authHandler);
-	    this.ref.authWithOAuthRedirect("google", function (error) {
-	      if (error) {
-	        console.log("Login Failed!", error);
-	      } else {
-	        // We'll never get here, as the page will redirect on success.
-	      }
-	    });
 	    this.init(this.props.params.username);
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -26993,6 +26950,65 @@
 	  };
 	};
 
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(24);
+	var SearchGithub = __webpack_require__(218);
+
+	var Login = React.createClass({
+	  displayName: 'Login',
+
+	  componentDidMount: function componentDidMount() {
+	    this.ref = new Firebase('https://sweltering-heat-7072.firebaseio.com/');
+	    // Create a callback which logs the current auth state
+	    function authDataCallback(authData) {
+	      if (authData) {
+	        console.log("User " + authData.uid + " is logged in with " + authData.provider);
+	        this.context.router.push("/main");
+	      } else {
+	        console.log("User is logged out");
+	      }
+	    }
+	    // Register the callback to be fired every time auth state changes
+	    this.ref.onAuth(authDataCallback);
+	    // Create a callback to handle the result of the authentication
+	    function authHandler(error, authData) {
+	      if (error) {
+	        console.log("Login Failed!", error);
+	      } else {
+	        console.log("Authenticated successfully with payload:", authData);
+	      }
+	    }
+	    // // Or via popular OAuth providers ("facebook", "github", "google", or "twitter")
+	    // this.ref.authWithOAuthPopup("<provider>", authHandler);
+	    // this.ref.authWithOAuthRedirect("<provider>", authHandler);
+	    this.ref.authWithOAuthRedirect("google", function (error) {
+	      if (error) {
+	        console.log("Login Failed!", error);
+	      } else {
+	        // We'll never get here, as the page will redirect on success.
+	      }
+	    });
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Login?'
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Login;
 
 /***/ }
 /******/ ]);
