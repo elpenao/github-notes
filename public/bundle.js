@@ -24719,6 +24719,37 @@
 	var Main = React.createClass({
 	  displayName: 'Main',
 
+	  componentDidMount: function componentDidMount() {
+	    this.ref = new Firebase('https://sweltering-heat-7072.firebaseio.com/');
+	    // Create a callback which logs the current auth state
+	    function authDataCallback(authData) {
+	      if (authData) {
+	        console.log("User " + authData.uid + " is logged in with " + authData.provider);
+	      } else {
+	        console.log("User is logged out");
+	      }
+	    }
+	    // Register the callback to be fired every time auth state changes
+	    this.ref.onAuth(authDataCallback);
+	    // Create a callback to handle the result of the authentication
+	    function authHandler(error, authData) {
+	      if (error) {
+	        console.log("Login Failed!", error);
+	      } else {
+	        console.log("Authenticated successfully with payload:", authData);
+	      }
+	    }
+	    // // Or via popular OAuth providers ("facebook", "github", "google", or "twitter")
+	    // this.ref.authWithOAuthPopup("<provider>", authHandler);
+	    // this.ref.authWithOAuthRedirect("<provider>", authHandler);
+	    this.ref.authWithOAuthRedirect("google", function (error) {
+	      if (error) {
+	        console.log("Login Failed!", error);
+	      } else {
+	        // We'll never get here, as the page will redirect on success.
+	      }
+	    });
+	  },
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -24838,13 +24869,50 @@
 	  mixins: [ReactFireMixin],
 	  getInitialState: function getInitialState() {
 	    return {
-	      notes: [1, 2, 3],
+	      notes: [],
 	      bio: {},
 	      repos: []
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
 	    this.ref = new Firebase('https://sweltering-heat-7072.firebaseio.com/');
+	    // Create a callback which logs the current auth state
+	    function authDataCallback(authData) {
+	      if (authData) {
+	        console.log("User " + authData.uid + " is logged in with " + authData.provider);
+	      } else {
+	        console.log("User is logged out");
+	      }
+	    }
+	    // Register the callback to be fired every time auth state changes
+	    this.ref.onAuth(authDataCallback);
+	    // Create a callback to handle the result of the authentication
+	    function authHandler(error, authData) {
+	      if (error) {
+	        console.log("Login Failed!", error);
+	      } else {
+	        console.log("Authenticated successfully with payload:", authData);
+	      }
+	    }
+	    // Authenticate users with a custom authentication token
+	    // this.ref.authWithCustomToken("<token>", authHandler);
+	    // Alternatively, authenticate users anonymously
+	    // this.ref.authAnonymously(authHandler);
+	    // // Or with an email/password combination
+	    // this.ref.authWithPassword({
+	    //   email    : 'bobtony@firebase.com',
+	    //   password : 'correcthorsebatterystaple'
+	    // }, authHandler);
+	    // // Or via popular OAuth providers ("facebook", "github", "google", or "twitter")
+	    // this.ref.authWithOAuthPopup("<provider>", authHandler);
+	    // this.ref.authWithOAuthRedirect("<provider>", authHandler);
+	    this.ref.authWithOAuthRedirect("google", function (error) {
+	      if (error) {
+	        console.log("Login Failed!", error);
+	      } else {
+	        // We'll never get here, as the page will redirect on success.
+	      }
+	    });
 	    this.init(this.props.params.username);
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
